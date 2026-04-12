@@ -4,13 +4,14 @@ import os
 # Define o caminho para o teu ficheiro de dados na raiz do projeto
 ARQUIVO_DADOS = "dados.json"
 
+
 def carregar_dados():
     """
     Lê o ficheiro JSON e converte o texto para uma lista de dicionários Python.
     """
     if not os.path.exists(ARQUIVO_DADOS):
         return []
-    
+
     try:
         with open(ARQUIVO_DADOS, 'r', encoding='utf-8') as arquivo:
             dados = json.load(arquivo)
@@ -20,12 +21,13 @@ def carregar_dados():
         # em vez de causar um erro no programa.
         return []
 
+
 def atualizar_item(id_item, nova_data, novo_indice, status):
     """
-    Procura um item pelo ID, atualiza os seus valores de revisão e guarda no JSON.
+    Procura um item pelo ID, atualiza os seus valores e guarda no JSON.
     """
     itens = carregar_dados()
-    
+
     for item in itens:
         if item.get("id") == id_item:
             item["data_agendada"] = nova_data
@@ -33,9 +35,10 @@ def atualizar_item(id_item, nova_data, novo_indice, status):
             item["status"] = status
             item["total_revisoes"] = item.get("total_revisoes", 0) + 1
             break
-            
+
     with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
         json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+
 
 def adicionar_item(novo_item):
     """
@@ -43,34 +46,37 @@ def adicionar_item(novo_item):
     """
     itens = carregar_dados()
     itens.append(novo_item)
-    
+
     with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
         json.dump(itens, arquivo, indent=4, ensure_ascii=False)
 
+
 def deletar_item(id_item):
     """
-    Lê os dados, remove o item que corresponde ao ID recebido e guarda novamente.
+    Lê os dados, remove o item correspondente ao ID e guarda novamente.
     """
     itens = carregar_dados()
-    
+
     itens_filtrados = [item for item in itens if item.get("id") != id_item]
-    
+
     with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
         json.dump(itens_filtrados, arquivo, indent=4, ensure_ascii=False)
 
+
 def editar_item(id_item, novos_dados):
     """
-    Procura o item pelo ID e atualiza as suas chaves com o dicionário 'novos_dados'.
+    Procura o item pelo ID e atualiza as suas chaves com 'novos_dados'.
     """
     itens = carregar_dados()
-    
+
     for item in itens:
         if item.get("id") == id_item:
             item.update(novos_dados)
             break
-            
+
     with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
         json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+
 
 def get_atividade_semanal():
     """

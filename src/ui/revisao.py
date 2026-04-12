@@ -2,6 +2,7 @@ import customtkinter as ctk
 from src.core.repositorio import carregar_dados, atualizar_item
 from src.core.agendador import calcular_proxima_data, classificar_itens
 
+# --- PALETA DE CORES ---
 BG = "#0d0b14"
 BG_CARD = "#12101a"
 BG_ITEM = "#1a1025"
@@ -55,7 +56,6 @@ class Revisao(ctk.CTkFrame):
         )
         self.card.pack(fill="both", expand=True, padx=120, pady=32)
 
-        # Conteúdo do card
         self.card_inner = ctk.CTkFrame(self.card, fg_color="transparent")
         self.card_inner.pack(fill="both", expand=True, padx=32, pady=32)
 
@@ -185,7 +185,7 @@ class Revisao(ctk.CTkFrame):
         sem = item.get("semestre")
         txt_cat = f"{sem}º semestre" if cat == "semestre" else "auto-estudo"
         self.tag_categoria.configure(text=txt_cat)
-        
+
         total_rev = item.get("total_revisoes", 0)
         self.tag_revisoes.configure(text=f"↻ {total_rev}ª revisão")
         self.label_assunto.configure(text=item["assunto"])
