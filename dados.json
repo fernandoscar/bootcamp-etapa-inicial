@@ -1,0 +1,38 @@
+[
+    {
+        "id": "7d64134d-d91c-4a43-b07e-b0f57f8af76d",
+        "materia": "teste",
+        "assunto": "assunto x",
+        "anotacao": "",
+        "categoria": "semestre",
+        "semestre": 1,
+        "data_agendada": "2026-04-19",
+        "indice_intervalo": 1,
+        "total_revisoes": 1,
+        "status": "Revisado"
+    },
+    {
+        "id": "9dfc1b94-7f0a-4c81-80db-803415053341",
+        "materia": "teste",
+        "assunto": "assunto y",
+        "anotacao": "perfeitoi",
+        "categoria": "semestre",
+        "semestre": 3,
+        "data_agendada": "2026-04-15",
+        "indice_intervalo": 0,
+        "total_revisoes": 1,
+        "status": "Precisa Reestudar"
+    },
+    {
+        "id": "f25b78d2-483d-48fc-9e33-07496e57c2a3",
+        "materia": "Pipo",
+        "assunto": "Pipo",
+        "anotacao": "",
+        "categoria": "semestre",
+        "semestre": 8,
+        "data_agendada": "2026-04-15",
+        "indice_intervalo": 0,
+        "total_revisoes": 1,
+        "status": "Precisa Reestudar"
+    }
+]

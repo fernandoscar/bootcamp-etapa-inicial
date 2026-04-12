@@ -1,49 +1,79 @@
 import json
 import os
-from datetime import date
 
-CAMINHO_DADOS = "dados.json"
+# Define o caminho para o teu ficheiro de dados na raiz do projeto
+ARQUIVO_DADOS = "dados.json"
 
-
-def carregar_dados() -> list:
-    """Lê o arquivo dados.json e retorna a lista de itens."""
-    if not os.path.exists(CAMINHO_DADOS):
+def carregar_dados():
+    """
+    Lê o ficheiro JSON e converte o texto para uma lista de dicionários Python.
+    """
+    if not os.path.exists(ARQUIVO_DADOS):
         return []
-    with open(CAMINHO_DADOS, "r", encoding="utf-8") as f:
-        conteudo = f.read().strip()
-        if not conteudo:
-            return []
-        return json.loads(conteudo)
+    
+    try:
+        with open(ARQUIVO_DADOS, 'r', encoding='utf-8') as arquivo:
+            dados = json.load(arquivo)
+            return dados
+    except json.JSONDecodeError:
+        # Se o ficheiro estiver vazio ou corrompido, devolvemos uma lista vazia
+        # em vez de causar um erro no programa.
+        return []
 
-
-def salvar_dados(itens: list) -> None:
-    """Salva a lista de itens no arquivo dados.json."""
-    with open(CAMINHO_DADOS, "w", encoding="utf-8") as f:
-        json.dump(itens, f, ensure_ascii=False, indent=2, default=str)
-
-
-def adicionar_item(materia: str, assunto: str) -> None:
-    """Cadastra um novo item no ciclo de revisão."""
+def atualizar_item(id_item, nova_data, novo_indice, status):
+    """
+    Procura um item pelo ID, atualiza os seus valores de revisão e guarda no JSON.
+    """
     itens = carregar_dados()
-    novo = {
-        "id": len(itens) + 1,
-        "materia": materia,
-        "assunto": assunto,
-        "indice_intervalo": 0,
-        "data_agendada": str(date.today()),
-        "status": "Pendente",
-    }
-    itens.append(novo)
-    salvar_dados(itens)
-
-
-def atualizar_item(item_id: int, nova_data: str, novo_indice: int, status: str) -> None:
-    """Atualiza data, índice e status de um item após revisão."""
-    itens = carregar_dados()
+    
     for item in itens:
-        if item["id"] == item_id:
+        if item.get("id") == id_item:
             item["data_agendada"] = nova_data
             item["indice_intervalo"] = novo_indice
             item["status"] = status
+            item["total_revisoes"] = item.get("total_revisoes", 0) + 1
             break
-    salvar_dados(itens)
+            
+    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+        json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+
+def adicionar_item(novo_item):
+    """
+    Guarda um novo assunto na base de dados.
+    """
+    itens = carregar_dados()
+    itens.append(novo_item)
+    
+    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+        json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+
+def deletar_item(id_item):
+    """
+    Lê os dados, remove o item que corresponde ao ID recebido e guarda novamente.
+    """
+    itens = carregar_dados()
+    
+    itens_filtrados = [item for item in itens if item.get("id") != id_item]
+    
+    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+        json.dump(itens_filtrados, arquivo, indent=4, ensure_ascii=False)
+
+def editar_item(id_item, novos_dados):
+    """
+    Procura o item pelo ID e atualiza as suas chaves com o dicionário 'novos_dados'.
+    """
+    itens = carregar_dados()
+    
+    for item in itens:
+        if item.get("id") == id_item:
+            item.update(novos_dados)
+            break
+            
+    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+        json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+
+def get_atividade_semanal():
+    """
+    Retorna os dados para o gráfico de 'Atividade semanal' no Dashboard.
+    """
+    return [0, 0, 0, 0, 0, 0, 0]
