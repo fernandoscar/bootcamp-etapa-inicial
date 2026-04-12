@@ -18,8 +18,16 @@ def carregar_dados():
             return dados
     except json.JSONDecodeError:
         # Se o ficheiro estiver vazio ou corrompido, devolvemos uma lista vazia
-        # em vez de causar um erro no programa.
         return []
+
+
+def salvar_dados(itens):
+    """
+    Guarda a lista de itens no ficheiro JSON.
+    Função exigida pelos testes automatizados.
+    """
+    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
+        json.dump(itens, arquivo, indent=4, ensure_ascii=False)
 
 
 def atualizar_item(id_item, nova_data, novo_indice, status):
@@ -36,8 +44,7 @@ def atualizar_item(id_item, nova_data, novo_indice, status):
             item["total_revisoes"] = item.get("total_revisoes", 0) + 1
             break
 
-    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
-        json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+    salvar_dados(itens)
 
 
 def adicionar_item(novo_item):
@@ -46,9 +53,7 @@ def adicionar_item(novo_item):
     """
     itens = carregar_dados()
     itens.append(novo_item)
-
-    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
-        json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+    salvar_dados(itens)
 
 
 def deletar_item(id_item):
@@ -56,11 +61,8 @@ def deletar_item(id_item):
     Lê os dados, remove o item correspondente ao ID e guarda novamente.
     """
     itens = carregar_dados()
-
     itens_filtrados = [item for item in itens if item.get("id") != id_item]
-
-    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
-        json.dump(itens_filtrados, arquivo, indent=4, ensure_ascii=False)
+    salvar_dados(itens_filtrados)
 
 
 def editar_item(id_item, novos_dados):
@@ -74,8 +76,7 @@ def editar_item(id_item, novos_dados):
             item.update(novos_dados)
             break
 
-    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
-        json.dump(itens, arquivo, indent=4, ensure_ascii=False)
+    salvar_dados(itens)
 
 
 def get_atividade_semanal():
