@@ -139,11 +139,17 @@ class Sidebar(ctk.CTkFrame):
             if nome == tela:
                 frame.configure(fg_color=BG_ATIVO)
                 icone.configure(text_color=COR_ROXA)
-                texto.configure(text_color=COR_TEXTO, font=ctk.CTkFont(size=13, weight="bold"))
+                texto.configure(
+                    text_color=COR_TEXTO,
+                    font=ctk.CTkFont(size=13, weight="bold")
+                )
             else:
                 frame.configure(fg_color="transparent")
                 icone.configure(text_color=COR_MUTED)
-                texto.configure(text_color=COR_MUTED, font=ctk.CTkFont(size=13))
+                texto.configure(
+                    text_color=COR_MUTED,
+                    font=ctk.CTkFont(size=13)
+                )
         self.atualizar_badge()
 
     def atualizar_badge(self):
