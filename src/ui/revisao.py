@@ -225,4 +225,3 @@ class Revisao(ctk.CTkFrame):
         self.indice_atual += 1
         self.mostrar_atual()
 
-        

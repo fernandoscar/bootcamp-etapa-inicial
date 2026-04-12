@@ -428,4 +428,3 @@ class MeusAssuntos(ctk.CTkFrame):
             font=ctk.CTkFont(weight="bold"), command=salvar
         ).pack(fill="x")
 
-        

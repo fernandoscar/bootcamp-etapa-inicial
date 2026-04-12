@@ -155,4 +155,3 @@ class Cadastro(ctk.CTkFrame):
         adicionar_item(novo_item)
         self.on_voltar()
 
-        

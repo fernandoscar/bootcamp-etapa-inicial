@@ -161,4 +161,3 @@ class Sidebar(ctk.CTkFrame):
         if hasattr(self, "badge"):
             self.badge.configure(text=str(total_pendentes))
 
-            
