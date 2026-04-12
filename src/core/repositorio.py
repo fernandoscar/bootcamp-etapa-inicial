@@ -39,7 +39,7 @@ def adicionar_item(materia_ou_dict, assunto=None):
             "data_agendada": str(date.today()),
             "indice_intervalo": 0,
             "total_revisoes": 0,
-            "status": "Pendente"
+            "status": "Pendente",
         }
         itens.append(novo_item)
     else:
@@ -84,4 +84,3 @@ def editar_item(id_item, novos_dados):
 def get_atividade_semanal():
     """Retorna dados para o gráfico do Dashboard."""
     return [0, 0, 0, 0, 0, 0, 0]
-
