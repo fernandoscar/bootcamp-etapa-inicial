@@ -44,23 +44,21 @@ class App(ctk.CTk):
             self.tela_atual = Dashboard(
                 self.conteudo,
                 on_revisar=lambda: self.navegar("revisao"),
-                on_cadastrar=lambda: self.navegar("cadastro")
+                on_cadastrar=lambda: self.navegar("cadastro"),
             )
         elif tela == "cadastro":
             self.tela_atual = Cadastro(
-                self.conteudo,
-                on_voltar=lambda: self.navegar("dashboard")
+                self.conteudo, on_voltar=lambda: self.navegar("dashboard")
             )
         elif tela == "revisao":
             self.tela_atual = Revisao(
-                self.conteudo,
-                on_voltar=lambda: self.navegar("dashboard")
+                self.conteudo, on_voltar=lambda: self.navegar("dashboard")
             )
         elif tela == "meus_assuntos":
             self.tela_atual = MeusAssuntos(
                 self.conteudo,
                 on_cadastrar=lambda: self.navegar("cadastro"),
-                on_voltar=lambda: self.navegar("dashboard")
+                on_voltar=lambda: self.navegar("dashboard"),
             )
 
         self.sidebar.set_ativo(tela)

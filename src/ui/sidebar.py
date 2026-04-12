@@ -23,10 +23,7 @@ class Sidebar(ctk.CTkFrame):
         logo_frame.pack(pady=(24, 32), padx=20, anchor="w")
 
         ctk.CTkLabel(
-            logo_frame,
-            text="⬡",
-            font=ctk.CTkFont(size=28),
-            text_color=COR_ROXA
+            logo_frame, text="⬡", font=ctk.CTkFont(size=28), text_color=COR_ROXA
         ).pack(side="left", padx=(0, 10))
 
         info = ctk.CTkFrame(logo_frame, fg_color="transparent")
@@ -36,22 +33,19 @@ class Sidebar(ctk.CTkFrame):
             info,
             text="PipoStudy",
             font=ctk.CTkFont(size=15, weight="bold"),
-            text_color=COR_TEXTO
+            text_color=COR_TEXTO,
         ).pack(anchor="w")
 
         ctk.CTkLabel(
             info,
             text="REVISÃO ESPAÇADA",
             font=ctk.CTkFont(size=9),
-            text_color=COR_MUTED
+            text_color=COR_MUTED,
         ).pack(anchor="w")
 
         # Menu
         ctk.CTkLabel(
-            self,
-            text="MENU",
-            font=ctk.CTkFont(size=10),
-            text_color=COR_MUTED
+            self, text="MENU", font=ctk.CTkFont(size=10), text_color=COR_MUTED
         ).pack(anchor="w", padx=24, pady=(0, 8))
 
         self._criar_item("dashboard", "⊞", "Início")
@@ -63,24 +57,21 @@ class Sidebar(ctk.CTkFrame):
         self.rodape.pack(side="bottom", fill="x", padx=16, pady=16)
 
         ctk.CTkLabel(
-            self.rodape,
-            text="⊙",
-            font=ctk.CTkFont(size=13),
-            text_color=COR_MUTED
+            self.rodape, text="⊙", font=ctk.CTkFont(size=13), text_color=COR_MUTED
         ).pack(side="left", padx=(12, 6), pady=10)
 
         ctk.CTkLabel(
             self.rodape,
             text="Total de assuntos",
             font=ctk.CTkFont(size=12),
-            text_color=COR_MUTED
+            text_color=COR_MUTED,
         ).pack(side="left", pady=10)
 
         self.label_total = ctk.CTkLabel(
             self.rodape,
             text="0",
             font=ctk.CTkFont(size=12, weight="bold"),
-            text_color=COR_TEXTO
+            text_color=COR_TEXTO,
         )
         self.label_total.pack(side="right", padx=12, pady=10)
 
@@ -88,27 +79,17 @@ class Sidebar(ctk.CTkFrame):
 
     def _criar_item(self, tela: str, icone: str, label: str):
         frame = ctk.CTkFrame(
-            self,
-            fg_color="transparent",
-            corner_radius=10,
-            cursor="hand2"
+            self, fg_color="transparent", corner_radius=10, cursor="hand2"
         )
         frame.pack(fill="x", padx=12, pady=2)
 
         icone_label = ctk.CTkLabel(
-            frame,
-            text=icone,
-            font=ctk.CTkFont(size=15),
-            text_color=COR_MUTED,
-            width=28
+            frame, text=icone, font=ctk.CTkFont(size=15), text_color=COR_MUTED, width=28
         )
         icone_label.pack(side="left", padx=(12, 8), pady=10)
 
         texto_label = ctk.CTkLabel(
-            frame,
-            text=label,
-            font=ctk.CTkFont(size=13),
-            text_color=COR_MUTED
+            frame, text=label, font=ctk.CTkFont(size=13), text_color=COR_MUTED
         )
         texto_label.pack(side="left", pady=10)
 
@@ -122,7 +103,7 @@ class Sidebar(ctk.CTkFrame):
                 fg_color="#db2777",
                 corner_radius=10,
                 width=24,
-                height=20
+                height=20,
             )
             self.badge.pack(side="right", padx=12)
 
@@ -140,16 +121,12 @@ class Sidebar(ctk.CTkFrame):
                 frame.configure(fg_color=BG_ATIVO)
                 icone.configure(text_color=COR_ROXA)
                 texto.configure(
-                    text_color=COR_TEXTO,
-                    font=ctk.CTkFont(size=13, weight="bold")
+                    text_color=COR_TEXTO, font=ctk.CTkFont(size=13, weight="bold")
                 )
             else:
                 frame.configure(fg_color="transparent")
                 icone.configure(text_color=COR_MUTED)
-                texto.configure(
-                    text_color=COR_MUTED,
-                    font=ctk.CTkFont(size=13)
-                )
+                texto.configure(text_color=COR_MUTED, font=ctk.CTkFont(size=13))
         self.atualizar_badge()
 
     def atualizar_badge(self):

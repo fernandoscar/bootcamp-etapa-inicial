@@ -13,7 +13,7 @@ def carregar_dados():
         return []
 
     try:
-        with open(ARQUIVO_DADOS, 'r', encoding='utf-8') as arquivo:
+        with open(ARQUIVO_DADOS, "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
             return dados
     except json.JSONDecodeError:
@@ -36,7 +36,7 @@ def atualizar_item(id_item, nova_data, novo_indice, status):
             item["total_revisoes"] = item.get("total_revisoes", 0) + 1
             break
 
-    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
         json.dump(itens, arquivo, indent=4, ensure_ascii=False)
 
 
@@ -47,7 +47,7 @@ def adicionar_item(novo_item):
     itens = carregar_dados()
     itens.append(novo_item)
 
-    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
         json.dump(itens, arquivo, indent=4, ensure_ascii=False)
 
 
@@ -59,7 +59,7 @@ def deletar_item(id_item):
 
     itens_filtrados = [item for item in itens if item.get("id") != id_item]
 
-    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
         json.dump(itens_filtrados, arquivo, indent=4, ensure_ascii=False)
 
 
@@ -74,7 +74,7 @@ def editar_item(id_item, novos_dados):
             item.update(novos_dados)
             break
 
-    with open(ARQUIVO_DADOS, 'w', encoding='utf-8') as arquivo:
+    with open(ARQUIVO_DADOS, "w", encoding="utf-8") as arquivo:
         json.dump(itens, arquivo, indent=4, ensure_ascii=False)
 
 

@@ -36,9 +36,7 @@ class Dashboard(ctk.CTkFrame):
         self.col_esq = ctk.CTkFrame(self.conteudo, fg_color="transparent")
         self.col_esq.pack(side="left", fill="both", expand=True, padx=(0, 16))
 
-        self.col_dir = ctk.CTkFrame(
-            self.conteudo, fg_color="transparent", width=340
-        )
+        self.col_dir = ctk.CTkFrame(self.conteudo, fg_color="transparent", width=340)
         self.col_dir.pack(side="right", fill="y")
         self.col_dir.pack_propagate(False)
 
@@ -50,13 +48,16 @@ class Dashboard(ctk.CTkFrame):
         header = ctk.CTkFrame(self, fg_color="transparent")
         header.pack(fill="x", padx=40, pady=(32, 24))
         ctk.CTkLabel(
-            header, text="Boa tarde! 👋",
+            header,
+            text="Boa tarde! 👋",
             font=ctk.CTkFont(size=28, weight="bold"),
-            text_color=COR_TEXTO
+            text_color=COR_TEXTO,
         ).pack(anchor="w")
         ctk.CTkLabel(
-            header, text="domingo, 12 de abril de 2026",
-            font=ctk.CTkFont(size=14), text_color=COR_MUTED
+            header,
+            text="domingo, 12 de abril de 2026",
+            font=ctk.CTkFont(size=14),
+            text_color=COR_MUTED,
         ).pack(anchor="w")
 
     def _criar_cards_resumo(self):
@@ -69,34 +70,32 @@ class Dashboard(ctk.CTkFrame):
         self._criar_card(cards_f, "0d", "Sequência", "🔥")
 
     def _criar_card(self, parent, valor, titulo, icone):
-        card = ctk.CTkFrame(
-            parent, fg_color=BG_CARD, corner_radius=16, height=100
-        )
+        card = ctk.CTkFrame(parent, fg_color=BG_CARD, corner_radius=16, height=100)
         card.pack(side="left", expand=True, fill="both", padx=(0, 16))
         card.pack_propagate(False)
 
+        ctk.CTkLabel(card, text=icone, font=ctk.CTkFont(size=18)).pack(
+            anchor="w", padx=20, pady=(16, 5)
+        )
         ctk.CTkLabel(
-            card, text=icone, font=ctk.CTkFont(size=18)
-        ).pack(anchor="w", padx=20, pady=(16, 5))
-        ctk.CTkLabel(
-            card, text=valor, font=ctk.CTkFont(size=24, weight="bold"),
-            text_color=COR_TEXTO
+            card,
+            text=valor,
+            font=ctk.CTkFont(size=24, weight="bold"),
+            text_color=COR_TEXTO,
         ).pack(anchor="w", padx=20)
         ctk.CTkLabel(
-            card, text=titulo, font=ctk.CTkFont(size=12),
-            text_color=COR_MUTED
+            card, text=titulo, font=ctk.CTkFont(size=12), text_color=COR_MUTED
         ).pack(anchor="w", padx=20, pady=(0, 16))
 
     def _criar_secao_revisoes(self):
-        card_fila = ctk.CTkFrame(
-            self.col_esq, fg_color=BG_CARD, corner_radius=16
-        )
+        card_fila = ctk.CTkFrame(self.col_esq, fg_color=BG_CARD, corner_radius=16)
         card_fila.pack(fill="both", expand=True)
 
         ctk.CTkLabel(
-            card_fila, text="Revisões Pendentes",
+            card_fila,
+            text="Revisões Pendentes",
             font=ctk.CTkFont(size=16, weight="bold"),
-            text_color=COR_TEXTO
+            text_color=COR_TEXTO,
         ).pack(anchor="w", padx=24, pady=24)
 
         lista = ctk.CTkFrame(card_fila, fg_color="transparent")
@@ -104,8 +103,10 @@ class Dashboard(ctk.CTkFrame):
 
         if not self.fila_total:
             ctk.CTkLabel(
-                lista, text="Tudo em dia! ✨",
-                font=ctk.CTkFont(size=14), text_color=COR_MUTED
+                lista,
+                text="Tudo em dia! ✨",
+                font=ctk.CTkFont(size=14),
+                text_color=COR_MUTED,
             ).pack(expand=True)
         else:
             for item in self.fila_total[:5]:
@@ -113,21 +114,26 @@ class Dashboard(ctk.CTkFrame):
                 cor_s = COR_VERMELHA if atrasado else COR_VERDE
                 bg_s = "#7f1d1d" if atrasado else "#064e3b"
                 self._criar_linha(
-                    lista, item.get("assunto", ""),
+                    lista,
+                    item.get("assunto", ""),
                     item.get("materia", ""),
                     "atrasada" if atrasado else "hoje",
-                    cor_s, bg_s
+                    cor_s,
+                    bg_s,
                 )
 
         self._btn_revisao(card_fila)
 
     def _btn_revisao(self, parent):
         ctk.CTkButton(
-            parent, text=f"Começar Revisão ({len(self.fila_total)})",
+            parent,
+            text=f"Começar Revisão ({len(self.fila_total)})",
             font=ctk.CTkFont(size=14, weight="bold"),
-            fg_color=COR_ROXA, height=48, corner_radius=12,
+            fg_color=COR_ROXA,
+            height=48,
+            corner_radius=12,
             command=self.on_revisar,
-            state="normal" if self.fila_total else "disabled"
+            state="normal" if self.fila_total else "disabled",
         ).pack(fill="x", padx=24, pady=24, side="bottom")
 
     def _criar_linha(self, parent, tit, sub, txt_s, cor_t, cor_b):
@@ -138,17 +144,23 @@ class Dashboard(ctk.CTkFrame):
         info = ctk.CTkFrame(linha, fg_color="transparent")
         info.pack(side="left", padx=10)
         ctk.CTkLabel(
-            info, text=tit[:25], font=ctk.CTkFont(size=13, weight="bold"),
-            text_color=COR_TEXTO
+            info,
+            text=tit[:25],
+            font=ctk.CTkFont(size=13, weight="bold"),
+            text_color=COR_TEXTO,
         ).pack(anchor="w")
         ctk.CTkLabel(
-            info, text=sub, font=ctk.CTkFont(size=11),
-            text_color=COR_MUTED
+            info, text=sub, font=ctk.CTkFont(size=11), text_color=COR_MUTED
         ).pack(anchor="w")
 
         ctk.CTkLabel(
-            linha, text=txt_s, font=ctk.CTkFont(size=10, weight="bold"),
-            text_color=cor_t, fg_color=cor_b, corner_radius=6, padx=8
+            linha,
+            text=txt_s,
+            font=ctk.CTkFont(size=10, weight="bold"),
+            text_color=cor_t,
+            fg_color=cor_b,
+            corner_radius=6,
+            padx=8,
         ).pack(side="right")
 
     def _criar_grafico_atividade(self):
@@ -158,14 +170,18 @@ class Dashboard(ctk.CTkFrame):
         card.pack(fill="x", pady=(0, 16))
         card.pack_propagate(False)
         ctk.CTkLabel(
-            card, text="📈 Atividade semanal",
-            font=ctk.CTkFont(size=12), text_color=COR_TEXTO
+            card,
+            text="📈 Atividade semanal",
+            font=ctk.CTkFont(size=12),
+            text_color=COR_TEXTO,
         ).pack(anchor="w", padx=20, pady=15)
 
     def _criar_proximas_revisoes(self):
         card = ctk.CTkFrame(self.col_dir, fg_color=BG_CARD, corner_radius=16)
         card.pack(fill="both", expand=True)
         ctk.CTkLabel(
-            card, text="Próximas Revisões",
-            font=ctk.CTkFont(size=12, weight="bold"), text_color=COR_TEXTO
+            card,
+            text="Próximas Revisões",
+            font=ctk.CTkFont(size=12, weight="bold"),
+            text_color=COR_TEXTO,
         ).pack(anchor="w", padx=20, pady=15)
