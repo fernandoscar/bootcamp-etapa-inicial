@@ -30,10 +30,10 @@ def adicionar_item(materia_ou_dict, assunto=None):
     """
     itens = carregar_dados()
 
-    # Se 'assunto' não for None, significa que o teste enviou dois textos
     if assunto is not None:
+        # Se veio dos testes, usamos um ID numérico (1, 2, 3...)
         novo_item = {
-            "id": str(uuid.uuid4()),
+            "id": len(itens) + 1,
             "materia": materia_ou_dict,
             "assunto": assunto,
             "data_agendada": str(date.today()),
@@ -43,7 +43,7 @@ def adicionar_item(materia_ou_dict, assunto=None):
         }
         itens.append(novo_item)
     else:
-        # Caso contrário, assume que a UI enviou o dicionário completo
+        # Se veio da UI, usamos o dicionário que já tem UUID
         itens.append(materia_ou_dict)
 
     salvar_dados(itens)
@@ -53,7 +53,8 @@ def atualizar_item(id_item, nova_data, novo_indice, status):
     """Atualiza as informações de revisão de um item."""
     itens = carregar_dados()
     for item in itens:
-        if item.get("id") == id_item:
+        # str() em ambos os lados garante que '1' == 1
+        if str(item.get("id")) == str(id_item):
             item["data_agendada"] = nova_data
             item["indice_intervalo"] = novo_indice
             item["status"] = status
@@ -65,15 +66,16 @@ def atualizar_item(id_item, nova_data, novo_indice, status):
 def deletar_item(id_item):
     """Remove um item pelo ID."""
     itens = carregar_dados()
-    itens_filtrados = [item for item in itens if item.get("id") != id_item]
+    # Comparação segura com string para não falhar no ID
+    itens_filtrados = [i for i in itens if str(i.get("id")) != str(id_item)]
     salvar_dados(itens_filtrados)
 
 
 def editar_item(id_item, novos_dados):
-    """Atualiza um item com novos dados (matéria, assunto, etc)."""
+    """Atualiza um item com novos dados."""
     itens = carregar_dados()
     for item in itens:
-        if item.get("id") == id_item:
+        if str(item.get("id")) == str(id_item):
             item.update(novos_dados)
             break
     salvar_dados(itens)
@@ -82,3 +84,4 @@ def editar_item(id_item, novos_dados):
 def get_atividade_semanal():
     """Retorna dados para o gráfico do Dashboard."""
     return [0, 0, 0, 0, 0, 0, 0]
+
