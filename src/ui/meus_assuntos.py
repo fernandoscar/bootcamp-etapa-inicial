@@ -427,3 +427,5 @@ class MeusAssuntos(ctk.CTkFrame):
             hover_color="#6d28d9", corner_radius=12, height=44,
             font=ctk.CTkFont(weight="bold"), command=salvar
         ).pack(fill="x")
+
+        

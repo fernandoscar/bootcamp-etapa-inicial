@@ -224,3 +224,5 @@ class Revisao(ctk.CTkFrame):
         atualizar_item(item["id"], str(nova_data), novo_indice, status)
         self.indice_atual += 1
         self.mostrar_atual()
+
+        

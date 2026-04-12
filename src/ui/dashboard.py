@@ -169,3 +169,5 @@ class Dashboard(ctk.CTkFrame):
             card, text="Próximas Revisões",
             font=ctk.CTkFont(size=12, weight="bold"), text_color=COR_TEXTO
         ).pack(anchor="w", padx=20, pady=15)
+
+        

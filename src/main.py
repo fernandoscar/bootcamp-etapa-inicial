@@ -18,7 +18,7 @@ class App(ctk.CTk):
         self.configure(fg_color=BG_COLOR)
         try:
             self.state("zoomed")
-        except:
+        except Exception:  # Corrigido: E722 bare except
             self.attributes("-zoomed", True)
         self.minsize(900, 600)
 
@@ -70,3 +70,5 @@ class App(ctk.CTk):
 if __name__ == "__main__":
     app = App()
     app.mainloop()
+
+    
