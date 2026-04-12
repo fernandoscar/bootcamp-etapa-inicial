@@ -1,9 +1,11 @@
-import json
 import os
 import pytest
 from datetime import date
 from src.core.repositorio import (
-    carregar_dados, salvar_dados, adicionar_item, atualizar_item
+    carregar_dados,
+    salvar_dados,
+    adicionar_item,
+    atualizar_item,
 )
 
 ARQUIVO_TESTE = "dados.json"

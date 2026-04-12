@@ -18,27 +18,35 @@ class Revisao(ctk.CTkFrame):
         self.label_materia = ctk.CTkLabel(self, text="", font=ctk.CTkFont(size=14))
         self.label_materia.pack()
 
-        self.label_assunto = ctk.CTkLabel(self, text="", font=ctk.CTkFont(size=20, weight="bold"))
+        self.label_assunto = ctk.CTkLabel(
+            self, text="", font=ctk.CTkFont(size=20, weight="bold")
+        )
         self.label_assunto.pack(pady=20)
 
         self.label_progresso = ctk.CTkLabel(self, text="")
         self.label_progresso.pack()
 
         self.btn_claro = ctk.CTkButton(
-            self, text="✅ Conexões Claras", fg_color="green",
-            command=lambda: self.responder("claro")
+            self,
+            text="✅ Conexões Claras",
+            fg_color="green",
+            command=lambda: self.responder("claro"),
         )
         self.btn_claro.pack(pady=5)
 
         self.btn_clareando = ctk.CTkButton(
-            self, text="🟡 Conexões Clareando", fg_color="orange",
-            command=lambda: self.responder("clareando")
+            self,
+            text="🟡 Conexões Clareando",
+            fg_color="orange",
+            command=lambda: self.responder("clareando"),
         )
         self.btn_clareando.pack(pady=5)
 
         self.btn_ineficaz = ctk.CTkButton(
-            self, text="❌ Ineficaz", fg_color="red",
-            command=lambda: self.responder("ineficaz")
+            self,
+            text="❌ Ineficaz",
+            fg_color="red",
+            command=lambda: self.responder("ineficaz"),
         )
         self.btn_ineficaz.pack(pady=5)
 
@@ -74,7 +82,9 @@ class Revisao(ctk.CTkFrame):
 
     def responder(self, feedback: str):
         item = self.fila[self.indice_atual]
-        nova_data, novo_indice = calcular_proxima_data(item["indice_intervalo"], feedback)
+        nova_data, novo_indice = calcular_proxima_data(
+            item["indice_intervalo"], feedback
+        )
         status = "Precisa Reestudar" if feedback == "ineficaz" else "Revisado"
         atualizar_item(item["id"], str(nova_data), novo_indice, status)
         self.indice_atual += 1

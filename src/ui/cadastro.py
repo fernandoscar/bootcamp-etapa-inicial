@@ -25,9 +25,7 @@ class Cadastro(ctk.CTkFrame):
         self.label_feedback = ctk.CTkLabel(self, text="")
         self.label_feedback.pack(pady=5)
 
-        self.btn_salvar = ctk.CTkButton(
-            self, text="Salvar", command=self.salvar
-        )
+        self.btn_salvar = ctk.CTkButton(self, text="Salvar", command=self.salvar)
         self.btn_salvar.pack(pady=10)
 
         self.btn_voltar = ctk.CTkButton(
@@ -48,6 +46,4 @@ class Cadastro(ctk.CTkFrame):
         adicionar_item(materia, assunto)
         self.entry_materia.delete(0, "end")
         self.entry_assunto.delete(0, "end")
-        self.label_feedback.configure(
-            text="✅ Assunto cadastrado!", text_color="green"
-        )
+        self.label_feedback.configure(text="✅ Assunto cadastrado!", text_color="green")

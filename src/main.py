@@ -17,11 +17,13 @@ class App(ctk.CTk):
         self.mostrar_dashboard()
 
     def mostrar_dashboard(self):
-        self._trocar_tela(Dashboard(
-            self,
-            on_revisar=self.mostrar_revisao,
-            on_cadastrar=self.mostrar_cadastro
-        ))
+        self._trocar_tela(
+            Dashboard(
+                self,
+                on_revisar=self.mostrar_revisao,
+                on_cadastrar=self.mostrar_cadastro,
+            )
+        )
 
     def mostrar_cadastro(self):
         self._trocar_tela(Cadastro(self, on_voltar=self.mostrar_dashboard))

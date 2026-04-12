@@ -31,7 +31,7 @@ def adicionar_item(materia: str, assunto: str) -> None:
         "assunto": assunto,
         "indice_intervalo": 0,
         "data_agendada": str(date.today()),
-        "status": "Pendente"
+        "status": "Pendente",
     }
     itens.append(novo)
     salvar_dados(itens)

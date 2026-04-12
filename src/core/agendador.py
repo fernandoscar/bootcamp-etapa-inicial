@@ -30,6 +30,6 @@ def classificar_itens(itens: list) -> tuple[list, list]:
     para_hoje = [i for i in itens if i["data_agendada"] == hoje]
     atrasados = sorted(
         [i for i in itens if i["data_agendada"] < hoje],
-        key=lambda x: x["data_agendada"]
+        key=lambda x: x["data_agendada"],
     )
     return para_hoje, atrasados
