@@ -1,6 +1,5 @@
 import json
 import os
-import uuid
 from datetime import date
 
 ARQUIVO_DADOS = "dados.json"

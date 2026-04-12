@@ -34,5 +34,17 @@
         "indice_intervalo": 0,
         "total_revisoes": 1,
         "status": "Precisa Reestudar"
+    },
+    {
+        "id": "802b453d-e8b1-4db6-8959-61e4aa644784",
+        "materia": "a",
+        "assunto": "a",
+        "anotacao": "",
+        "categoria": "semestre",
+        "semestre": 1,
+        "data_agendada": "2026-04-12",
+        "indice_intervalo": 0,
+        "total_revisoes": 0,
+        "status": "Pendente"
     }
 ]
