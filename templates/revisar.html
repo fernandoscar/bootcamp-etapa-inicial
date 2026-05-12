@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Revisar{% endblock %}
+{% block content %}
+{% if fila %}
+    {% set item = fila[0] %}
+    <div class="review-card">
+        <div class="review-tags">
+            <span class="review-tag materia">● {{ item.materia }}</span>
+            <span class="review-tag info">
+                {% if item.categoria == "semestre" %}{{ item.semestre }}º semestre{% else %}auto-estudo{% endif %}
+            </span>
+            <span class="review-tag info" style="margin-left:auto;">↻ {{ item.total_revisoes }}ª revisão</span>
+        </div>
+
+        <div class="review-subject">{{ item.assunto }}</div>
+
+        {% if item.anotacao %}
+        <div class="review-note">"{{ item.anotacao }}"</div>
+        {% endif %}
+
+        {% if item.get("wiki_url") %}
+        <p style="font-size:11px;color:var(--muted);margin-bottom:16px;">
+            📎 <a href="{{ item.wiki_url }}" target="_blank" style="color:var(--roxa);">Ver na Wikipedia</a>
+        </p>
+        {% endif %}
+
+        <p style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:12px;">
+            Como foi sua lembrança?
+        </p>
+
+        <div class="feedback-grid">
+            <a href="{{ url_for('responder', item_id=item.id, feedback='claro') }}" class="fb-btn fb-green">
+                <span class="fb-icon">✓</span>
+                <span class="fb-title">Conexões Claras</span>
+                <span class="fb-sub">Lembrei bem</span>
+            </a>
+            <a href="{{ url_for('responder', item_id=item.id, feedback='clareando') }}" class="fb-btn fb-yellow">
+                <span class="fb-icon">−</span>
+                <span class="fb-title">Clareando</span>
+                <span class="fb-sub">Com esforço</span>
+            </a>
+            <a href="{{ url_for('responder', item_id=item.id, feedback='ineficaz') }}" class="fb-btn fb-red">
+                <span class="fb-icon">✕</span>
+                <span class="fb-title">Ineficaz</span>
+                <span class="fb-sub">Não lembrei</span>
+            </a>
+        </div>
+    </div>
+
+    <p style="text-align:center;margin-top:16px;font-size:12px;color:var(--muted);">
+        1 de {{ fila|length }} pendentes
+    </p>
+{% else %}
+    <div class="review-card" style="text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">🎉</div>
+        <div class="review-subject">Revisão concluída!</div>
+        <p style="color:var(--muted);margin-bottom:20px;">Você está em dia com tudo.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary" style="max-width:200px;margin:0 auto;">Voltar ao início</a>
+    </div>
+{% endif %}
+{% endblock %}

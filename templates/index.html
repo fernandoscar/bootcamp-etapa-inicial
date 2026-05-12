@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+
+<!-- Header com clima -->
+<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;">
+    <div>
+        <h1 style="font-size:22px;margin-bottom:4px;">Bem-vindo ao PipoStudy! 👋</h1>
+        <p style="font-size:12px;color:var(--muted);">Seu sistema de revisão espaçada</p>
+    </div>
+    {% if clima and clima.encontrado %}
+    <div style="display:flex;align-items:center;gap:8px;background:var(--card);padding:10px 16px;border-radius:12px;border:1px solid var(--border);">
+        <span style="font-size:24px;">{{ clima.icone }}</span>
+        <div>
+            <div style="font-size:16px;font-weight:600;">{{ clima.temperatura }}°C</div>
+            <div style="font-size:10px;color:var(--muted);">{{ clima.descricao }} · Brasília</div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Alerta feriado -->
+{% if feriado %}
+<div style="background:var(--bg-amar);border:1px solid var(--amarelo);border-radius:10px;padding:10px 16px;margin-bottom:16px;display:flex;align-items:center;gap:8px;">
+    <span style="font-size:16px;">🎉</span>
+    <span style="font-size:12px;color:#92400e;">
+        <strong>{{ feriado.texto }}</strong>
+        {% if feriado.dias_restantes > 1 %} — em {{ feriado.dias_restantes }} dias. Bom dia pra revisar!{% endif %}
+    </span>
+</div>
+{% endif %}
+
+<!-- Stats -->
+<div class="stats">
+    <div class="stat-card">
+        <div class="stat-icon purple">📅</div>
+        <div><div class="stat-val">{{ para_hoje|length }}</div><div class="stat-label">Para hoje</div></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon red">⚠</div>
+        <div><div class="stat-val">{{ atrasados|length }}</div><div class="stat-label">Atrasadas</div></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon blue">📖</div>
+        <div><div class="stat-val">{{ total }}</div><div class="stat-label">Total</div></div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon amber">🔥</div>
+        <div><div class="stat-val">0d</div><div class="stat-label">Sequência</div></div>
+    </div>
+</div>
+
+<div class="content-grid">
+    <!-- Coluna esquerda -->
+    <div>
+        <!-- Revisões pendentes -->
+        <div class="panel" style="margin-bottom:14px;">
+            <div class="panel-title">✓ Revisões pendentes</div>
+            {% if fila %}
+                {% for item in fila[:5] %}
+                <div class="rev-item">
+                    {% if item.get("imagem_url") %}
+                    <img src="{{ item.imagem_url }}" alt="" style="width:32px;height:32px;border-radius:8px;object-fit:cover;">
+                    {% else %}
+                    <div class="rev-icon" style="background:var(--ativo);">📘</div>
+                    {% endif %}
+                    <div class="rev-info">
+                        <div class="rev-title">{{ item.assunto[:30] }}</div>
+                        <div class="rev-sub">{{ item.materia }}</div>
+                    </div>
+                    <span class="rev-sub">{{ item.total_revisoes + 1 }}ª rev</span>
+                    {% if item in atrasados %}
+                        <span class="tag tag-atrasada">atrasada</span>
+                    {% else %}
+                        <span class="tag tag-hoje">hoje</span>
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <a href="{{ url_for('revisar') }}" class="btn btn-primary" style="margin-top:12px;">
+                    ▶ Começar revisão ({{ fila|length }})
+                </a>
+            {% else %}
+                <div class="empty">Tudo em dia! ✨</div>
+            {% endif %}
+        </div>
+
+        <!-- Todos os assuntos com imagens -->
+        <div class="panel">
+            <div class="panel-title" style="justify-content:space-between;">
+                <span>📚 Meus Assuntos</span>
+                <a href="{{ url_for('cadastrar') }}" class="btn btn-sm" style="background:var(--roxa);color:#fff;">+ Novo</a>
+            </div>
+            {% if itens %}
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;">
+                {% for item in itens %}
+                <div class="assunto-card {{ 'atrasado' if item.id in (atrasados|map(attribute='id')|list) else ('hoje' if item.id in (para_hoje|map(attribute='id')|list) else '') }}">
+                    {% if item.get("imagem_url") %}
+                    <img src="{{ item.imagem_url }}" alt="" style="width:100%;height:80px;object-fit:cover;border-radius:8px;margin-bottom:8px;">
+                    {% endif %}
+                    <div style="font-size:10px;color:var(--muted);">{{ item.materia }}</div>
+                    <div style="font-size:13px;font-weight:600;margin:2px 0 4px;">{{ item.assunto[:25] }}</div>
+                    {% if item.anotacao %}
+                    <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">{{ item.anotacao[:50] }}...</div>
+                    {% endif %}
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <span style="font-size:9px;color:var(--muted);">📖 {{ item.total_revisoes }} rev</span>
+                        <div style="display:flex;gap:4px;">
+                            {% if item.get("wiki_url") %}
+                            <a href="{{ item.wiki_url }}" target="_blank" class="btn btn-sm btn-outline" style="padding:4px 8px;font-size:9px;">Wiki</a>
+                            {% endif %}
+                            <a href="{{ url_for('deletar', item_id=item.id) }}" class="btn btn-sm btn-danger" style="padding:4px 8px;font-size:9px;" onclick="return confirm('Deletar?')">✕</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty">Nenhum assunto cadastrado. <a href="{{ url_for('cadastrar') }}" style="color:var(--roxa);">Cadastrar primeiro!</a></div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Coluna direita -->
+    <div class="right-col">
+        <!-- Próximas revisões -->
+        <div class="panel">
+            <div class="panel-title">📅 Próximas</div>
+            {% set futuros = itens|selectattr("data_agendada", "gt", date.today()|string)|list|sort(attribute="data_agendada") %}
+            {% if futuros %}
+                {% for item in futuros[:4] %}
+                <div class="prox-item">
+                    <div class="prox-dot"></div>
+                    <div class="prox-info">
+                        <div class="prox-title">{{ item.assunto[:18] }}</div>
+                        <div class="prox-sub">{{ item.materia }}</div>
+                    </div>
+                    <span class="prox-days">{{ item.data_agendada }}</span>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty" style="padding:12px;font-size:12px;">Nenhuma agendada</div>
+            {% endif %}
+        </div>
+
+        <!-- Perfil GitHub -->
+        {% if github and github.encontrado %}
+        <div class="panel">
+            <div class="panel-title">🐙 GitHub</div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+                <img src="{{ github.avatar_url }}" alt="" style="width:40px;height:40px;border-radius:50%;">
+                <div>
+                    <div style="font-size:13px;font-weight:600;">{{ github.nome }}</div>
+                    <div style="font-size:10px;color:var(--muted);">{{ github.repos_publicos }} repos públicos</div>
+                </div>
+            </div>
+            {% if github.bio %}
+            <div style="font-size:11px;color:var(--muted);margin-bottom:10px;">{{ github.bio[:80] }}</div>
+            {% endif %}
+            {% if repos %}
+            <div style="font-size:10px;color:var(--muted);margin-bottom:6px;">Repos recentes:</div>
+            {% for repo in repos %}
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 0;{% if not loop.last %}border-bottom:1px solid var(--border);{% endif %}">
+                <div>
+                    <a href="{{ repo.url }}" target="_blank" style="font-size:11px;font-weight:600;color:var(--roxa);text-decoration:none;">{{ repo.nome }}</a>
+                    {% if repo.linguagem %}
+                    <span style="font-size:9px;color:var(--muted);margin-left:4px;">{{ repo.linguagem }}</span>
+                    {% endif %}
+                </div>
+                {% if repo.estrelas > 0 %}
+                <span style="font-size:9px;color:var(--amarelo);">⭐ {{ repo.estrelas }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% endif %}
+            <a href="{{ github.url }}" target="_blank" class="btn btn-sm btn-outline" style="width:100%;margin-top:8px;font-size:10px;">Ver perfil completo</a>
+        </div>
+        {% endif %}
+
+        <!-- APIs disponíveis -->
+        <div class="panel" style="flex:1;">
+            <div class="panel-title">🔌 APIs Integradas</div>
+            <div style="font-size:10px;color:var(--muted);line-height:1.8;">
+                ✅ Wikipedia — resumos automáticos<br>
+                ✅ Open-Meteo — clima em tempo real<br>
+                ✅ Unsplash — imagens por assunto<br>
+                ✅ GitHub — perfil e repos<br>
+                ✅ Nager.Date — feriados BR<br>
+                ✅ REST Countries — dados de países<br>
+            </div>
+            <div style="margin-top:10px;font-size:10px;color:var(--muted);">
+                Endpoints: <code style="font-size:9px;">/api/wiki/</code> <code style="font-size:9px;">/api/clima</code> <code style="font-size:9px;">/api/github/</code> <code style="font-size:9px;">/api/pais/</code> <code style="font-size:9px;">/api/feriado</code>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

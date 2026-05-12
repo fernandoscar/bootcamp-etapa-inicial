@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Cadastrar{% endblock %}
+{% block content %}
+<div class="form-card">
+    <div class="form-title">Novo Assunto</div>
+    <div class="form-sub">Adicione um tópico ao seu ciclo de revisão</div>
+
+    <form method="POST" action="{{ url_for('cadastrar') }}">
+        <label>Categoria</label>
+        <select name="categoria">
+            <option value="semestre">Semestre</option>
+            <option value="auto-estudo">Auto-Estudo</option>
+        </select>
+
+        <label>Matéria</label>
+        <input type="text" name="materia" placeholder="Ex: Estrutura de Dados" required>
+
+        <label>Assunto</label>
+        <input type="text" name="assunto" placeholder="Ex: Listas encadeadas" required>
+
+        <label>Anotação (opcional — se vazio, busca da Wikipedia)</label>
+        <textarea name="anotacao" placeholder="Suas anotações sobre o tema..."></textarea>
+
+        <label>Semestre</label>
+        <select name="semestre">
+            {% for i in range(1, 9) %}
+            <option value="{{ i }}">{{ i }}º semestre</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit" class="btn btn-primary">Salvar</button>
+    </form>
+
+    <a href="{{ url_for('index') }}" class="btn btn-outline" style="width:100%;margin-top:8px;">Voltar</a>
+</div>
+{% endblock %}
