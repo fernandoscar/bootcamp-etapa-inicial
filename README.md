@@ -105,3 +105,5 @@ A versão web está disponível no Render:
 ## Autor
 
 Fernando — Engenharia de Software, 3º semestre
+
+**Deploy:** https://pipostudy.onrender.com *(link será atualizado após deploy)*
